@@ -37,6 +37,13 @@ const files: FileData[] = [
     line_file: './geojson/kintetsu_line.geojson',
     station_file: './geojson/kintetsu_station_count.geojson',
     color: [255, 241, 0]
+  },
+  {
+    id: 4,
+    company: "名古屋市交通局",
+    line_file: './geojson/nagoya_subway_line.geojson',
+    station_file: './geojson/nagoya_subway_station_count.geojson',
+    color: [0, 90, 255]
   }
 ];
 
@@ -44,13 +51,15 @@ export default function Home() {
 
   // 変更ハンドラー
   function dataChangeHandler(select_value: string) {
+    setLineData({});
+    setStationData({});
     const file_data = files.find(element => element.company == select_value);
     setSelected(file_data ?? files[0]); 
   }
 
   // State
-  const [lineData, setLineData] = useState();
-  const [stationData, setStationData] = useState();
+  const [lineData, setLineData] = useState<object>();
+  const [stationData, setStationData] = useState<object>();
 
   const [selected, setSelected] = useState<FileData>(files[0]);
 
@@ -96,10 +105,10 @@ export default function Home() {
   const customerGridCellLayer = new GridCellLayer({
     id: 'customer-count-grid-cell-layer',
     data: stationData,
-    cellSize: 1000,
+    cellSize: 500,
     extruded: true,
     pickable: true,
-    elevationScale: 10,
+    elevationScale: 5,
     getPosition: d => d.geometry.coordinates,
     getElevation: d => d.properties.count,
     getFillColor: selected.color
