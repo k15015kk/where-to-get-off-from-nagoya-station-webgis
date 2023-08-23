@@ -30,21 +30,31 @@ const files: FileData[] = [
     line_file: './geojson/meitetsu_line.geojson',
     station_file: './geojson/meitetsu_station_count.geojson',
     color: [255, 75, 0]
+  },
+  {
+    id: 3,
+    company: "近畿日本鉄道",
+    line_file: './geojson/kintetsu_line.geojson',
+    station_file: './geojson/kintetsu_station_count.geojson',
+    color: [255, 241, 0]
   }
 ];
 
 export default function Home() {
 
+  // 変更ハンドラー
   function dataChangeHandler(select_value: string) {
     const file_data = files.find(element => element.company == select_value);
     setSelected(file_data ?? files[0]); 
   }
 
+  // State
   const [lineData, setLineData] = useState();
   const [stationData, setStationData] = useState();
 
   const [selected, setSelected] = useState<FileData>(files[0]);
 
+  // Effect
   useEffect(() => {
     // 線形データを取得
     async function loadLineData() {
@@ -70,6 +80,7 @@ export default function Home() {
     loadStationData();
   }, [selected]);
 
+  // Layer
   const lineGeoJsonLayer = new GeoJsonLayer({
     id: "line-geojson-layer",
     data: lineData,
