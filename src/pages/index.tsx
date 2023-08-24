@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import DeckGL from '@deck.gl/react/typed';
 import { MapboxOverlay, MapboxOverlayProps } from '@deck.gl/mapbox/typed';
 import Map, { NavigationControl, FullscreenControl, useControl } from 'react-map-gl/maplibre';
-import 'maplibre-gl/dist/maplibre-gl.css'; 
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 // 地図の一番最初に表示する場所を設定
 const INITIAL_VIEW_STATE: MapViewState = {
@@ -127,6 +127,7 @@ export default function Home() {
   return (
     <>
       <div className='absolute w-screen h-screen'>
+        
         <Map
           mapStyle={process.env.NEXT_PUBLIC_MAP_URL}
           initialViewState={INITIAL_VIEW_STATE}
@@ -141,7 +142,7 @@ export default function Home() {
         </Map>
       </div>
       <select
-        className='absolute px-4 py-2 m-4 w-64 rounded shadow-md'
+        className='absolute px-4 py-2 m-4 w-64 rounded shadow-md z-10'
         onChange={e => dataChangeHandler(e.target.value)}
       >
         {files.map((file) => <option key={file.id} value={file.company}>{file.company}</option>)}
