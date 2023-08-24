@@ -37,7 +37,7 @@ const files: FileData[] = [
     company: "近畿日本鉄道",
     line_file: './geojson/kintetsu_line.geojson',
     station_file: './geojson/kintetsu_station_count.geojson',
-    color: [255, 241, 0, 255]
+    color: [3, 175, 122, 255]
   },
   {
     id: 4,
@@ -105,7 +105,7 @@ export default function Home() {
     data: lineData,
     stroked: true,
     fill: true,
-    lineWidthScale: 100,
+    lineWidthScale: 40,
     lineWidthUnits: 'meters',
     lineWidthMinPixels: 2,
     getLineColor: selected.color,
@@ -115,10 +115,10 @@ export default function Home() {
   const customerGridCellLayer = new GridCellLayer({
     id: 'customer-count-grid-cell-layer',
     data: stationData,
-    cellSize: 500,
+    cellSize: 300,
     extruded: true,
     pickable: true,
-    elevationScale: 5,
+    elevationScale: 4,
     getPosition: d => d.geometry.coordinates,
     getElevation: d => d.properties.count,
     getFillColor: selected.color
