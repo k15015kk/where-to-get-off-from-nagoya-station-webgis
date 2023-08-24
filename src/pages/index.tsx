@@ -3,8 +3,9 @@ import { load } from '@loaders.gl/core';
 import { JSONLoader } from '@loaders.gl/json';
 import { useEffect, useState } from 'react';
 import DeckGL from '@deck.gl/react/typed';
-import Map from 'react-map-gl/maplibre';
-import 'maplibre-gl/dist/maplibre-gl.css';
+import { MapboxOverlay, MapboxOverlayProps } from '@deck.gl/mapbox/typed';
+import Map, { NavigationControl, FullscreenControl, useControl } from 'react-map-gl/maplibre';
+import 'maplibre-gl/dist/maplibre-gl.css'; 
 
 // 地図の一番最初に表示する場所を設定
 const INITIAL_VIEW_STATE: MapViewState = {
@@ -22,30 +23,39 @@ const files: FileData[] = [
     company: "JR東海",
     line_file: './geojson/jrtokai_aikan_line.geojson',
     station_file: './geojson/jrtokai_aikan_station_count.geojson',
-    color: [246, 170, 0]
+    color: [246, 170, 0, 255]
   },
   {
     id: 2,
     company: "名古屋鉄道",
     line_file: './geojson/meitetsu_line.geojson',
     station_file: './geojson/meitetsu_station_count.geojson',
-    color: [255, 75, 0]
+    color: [255, 75, 0, 255]
   },
   {
     id: 3,
     company: "近畿日本鉄道",
     line_file: './geojson/kintetsu_line.geojson',
     station_file: './geojson/kintetsu_station_count.geojson',
-    color: [255, 241, 0]
+    color: [255, 241, 0, 255]
   },
   {
     id: 4,
     company: "名古屋市交通局",
     line_file: './geojson/nagoya_subway_line.geojson',
     station_file: './geojson/nagoya_subway_station_count.geojson',
-    color: [0, 90, 255]
+    color: [0, 90, 255, 255]
   }
 ];
+
+function DeckGLOverlay(props: MapboxOverlayProps & {
+  interleaved?: boolean;
+}) {
+  const overlay = useControl<MapboxOverlay>(() => new MapboxOverlay(props));
+  overlay.setProps(props);
+  return null;
+}
+
 
 export default function Home() {
 
@@ -54,12 +64,12 @@ export default function Home() {
     setLineData({});
     setStationData({});
     const file_data = files.find(element => element.company == select_value);
-    setSelected(file_data ?? files[0]); 
+    setSelected(file_data ?? files[0]);
   }
 
   // State
   const [lineData, setLineData] = useState<object>();
-  const [stationData, setStationData] = useState<object>();
+  const [stationData, setStationData] = useState<any>();
 
   const [selected, setSelected] = useState<FileData>(files[0]);
 
@@ -116,26 +126,26 @@ export default function Home() {
 
   return (
     <>
-      <div className='h-screen'>
-        <DeckGL
+      <div className='absolute w-screen h-screen'>
+        <Map
+          mapStyle={process.env.NEXT_PUBLIC_MAP_URL}
           initialViewState={INITIAL_VIEW_STATE}
-          layers={[customerGridCellLayer, lineGeoJsonLayer]}
-          controller={true}
-          style={{ position: 'relative', left: 'auto', top: 'auto' }}
-          getTooltip={({ object }) => object && `${object.properties.N05_011}\n${object.properties.count}`}
+          maplibreLogo
         >
-          <Map
-            mapStyle={process.env.NEXT_PUBLIC_MAP_URL}
-          >
-          </Map>
-          <select
-            className='px-4 py-2 m-4 w-64 rounded shadow-md'
-            onChange={e => dataChangeHandler(e.target.value)}
-          >
-            {files.map((file) => <option key={file.id} value={file.company}>{file.company}</option>)}
-          </select>
-        </DeckGL>
+          <DeckGLOverlay
+            layers={[lineGeoJsonLayer, customerGridCellLayer]}
+            getTooltip={({ object }) => object && `${object.properties.N05_011}\n${object.properties.count}`}
+          />
+          <NavigationControl />
+          <FullscreenControl />
+        </Map>
       </div>
+      <select
+        className='absolute px-4 py-2 m-4 w-64 rounded shadow-md'
+        onChange={e => dataChangeHandler(e.target.value)}
+      >
+        {files.map((file) => <option key={file.id} value={file.company}>{file.company}</option>)}
+      </select>
     </>
   )
 }

@@ -3,5 +3,5 @@ type FileData = {
     company: string,
     line_file: string,
     station_file: string,
-    color: number[]
+    color: [number, number, number] | [number, number, number, number]
 }
