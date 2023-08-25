@@ -1,7 +1,7 @@
 import { GridCellLayer, GeoJsonLayer } from '@deck.gl/layers/typed';
 import { load } from '@loaders.gl/core';
 import { JSONLoader } from '@loaders.gl/json';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import DeckGL from '@deck.gl/react/typed';
 import { MapboxOverlay, MapboxOverlayProps } from '@deck.gl/mapbox/typed';
 import Map, { NavigationControl, FullscreenControl, useControl } from 'react-map-gl/maplibre';
@@ -23,28 +23,24 @@ const files: FileData[] = [
     company: "JR東海",
     line_file: './geojson/jrtokai_aikan_line.geojson',
     station_file: './geojson/jrtokai_aikan_station_count.geojson',
-    color: [246, 170, 0, 255]
   },
   {
     id: 2,
     company: "名古屋鉄道",
     line_file: './geojson/meitetsu_line.geojson',
     station_file: './geojson/meitetsu_station_count.geojson',
-    color: [255, 75, 0, 255]
   },
   {
     id: 3,
     company: "近畿日本鉄道",
     line_file: './geojson/kintetsu_line.geojson',
     station_file: './geojson/kintetsu_station_count.geojson',
-    color: [3, 175, 122, 255]
   },
   {
     id: 4,
     company: "名古屋市交通局",
     line_file: './geojson/nagoya_subway_line.geojson',
     station_file: './geojson/nagoya_subway_station_count.geojson',
-    color: [0, 90, 255, 255]
   }
 ];
 
@@ -56,20 +52,52 @@ function DeckGLOverlay(props: MapboxOverlayProps & {
   return null;
 }
 
+// RGBのRを決める関数
+function calcRedColorNumber(ratio: number): number {
+  if (ratio <= 0.25) {
+    return 0;
+  } else if (ratio <= 0.5) {
+    const diff = ratio - 0.25;
+    return Math.ceil(255 * diff * 4);
+  } else {
+    return 255;
+  }
+}
+
+// RGBのGを決める関数
+function calcGreenColorNumber(ratio: number): number {
+  if (ratio <= 0.25) {
+    return Math.ceil(255 * ratio * 4);
+  } else if (ratio <= 0.5) {
+    return 255;
+  } else {
+    const diff = 1.0 - ratio;
+    return Math.ceil(255 * diff * 2);
+  }
+}
+
+// RGBのBを決める関数
+function calcBlueColorNumber(ratio: number): number {
+  if (ratio <= 0.25) {
+    return Math.ceil(255 - (255 * ratio * 4));
+  } else {
+    return 0
+  }
+}
 
 export default function Home() {
 
   // 変更ハンドラー
   function dataChangeHandler(select_value: string) {
     setLineData({});
-    setStationData({});
+    setStationData([]);
     const file_data = files.find(element => element.company == select_value);
     setSelected(file_data ?? files[0]);
   }
 
   // State
   const [lineData, setLineData] = useState<object>();
-  const [stationData, setStationData] = useState<any>();
+  const [stationData, setStationData] = useState<any[]>([]);
 
   const [selected, setSelected] = useState<FileData>(files[0]);
 
@@ -99,6 +127,11 @@ export default function Home() {
     loadStationData();
   }, [selected]);
 
+  const maxCount = useMemo(() => {
+    const countList = stationData.map((feature) => feature.properties.count)
+    return Math.max(...countList);
+  }, [stationData]);
+
   // Layer
   const lineGeoJsonLayer = new GeoJsonLayer({
     id: "line-geojson-layer",
@@ -108,9 +141,9 @@ export default function Home() {
     lineWidthScale: 40,
     lineWidthUnits: 'meters',
     lineWidthMinPixels: 2,
-    getLineColor: selected.color,
+    getLineColor: [64, 64, 64, 255],
     getLineWidth: 8,
-  })
+  });
 
   const customerGridCellLayer = new GridCellLayer({
     id: 'customer-count-grid-cell-layer',
@@ -121,13 +154,20 @@ export default function Home() {
     elevationScale: 4,
     getPosition: d => d.geometry.coordinates,
     getElevation: d => d.properties.count,
-    getFillColor: selected.color
-  })
+    getFillColor: (d => {
+      return [
+        calcRedColorNumber(d.properties.count / maxCount),
+        calcGreenColorNumber(d.properties.count / maxCount),
+        calcBlueColorNumber(d.properties.count / maxCount),
+        255
+      ]
+    })
+  });
 
   return (
     <>
       <div className='absolute w-screen h-screen'>
-        
+
         <Map
           mapStyle={process.env.NEXT_PUBLIC_MAP_URL}
           initialViewState={INITIAL_VIEW_STATE}
