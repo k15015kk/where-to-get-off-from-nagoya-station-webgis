@@ -127,10 +127,7 @@ export default function Home() {
     loadStationData();
   }, [selected]);
 
-  const maxCount = useMemo(() => {
-    const countList = stationData.map((feature) => feature.properties.count)
-    return Math.max(...countList);
-  }, [stationData]);
+  const maxCount = 5000;
 
   // Layer
   const lineGeoJsonLayer = new GeoJsonLayer({
