@@ -166,6 +166,20 @@ export default function Home() {
 
   return (
     <>
+      <div className='absolute w-full h-full'>
+        <select
+          className='relative px-4 py-2 mt-4 mb-1 mx-4 w-64 rounded shadow-md z-10'
+          onChange={e => dataChangeHandler(e.target.value)}
+        >
+          {files.map((file) => <option key={file.id} value={file.company}>{file.company}</option>)}
+        </select>
+        <p className='relative px-2 py-1 mx-4 text-black w-auto z-10'>
+          数字の単位は人数
+        </p>
+        <h1 className='absolute px-2 py-1 mx-4 bg-black text-white rounded opacity-40 right-0 bottom-8 w-auto z-10'>
+          名古屋駅からどの駅で降りているのか？
+        </h1>
+      </div>
       <div className='absolute w-screen h-screen'>
 
         <Map
@@ -181,12 +195,6 @@ export default function Home() {
           <FullscreenControl />
         </Map>
       </div>
-      <select
-        className='absolute px-4 py-2 m-4 w-64 rounded shadow-md z-10'
-        onChange={e => dataChangeHandler(e.target.value)}
-      >
-        {files.map((file) => <option key={file.id} value={file.company}>{file.company}</option>)}
-      </select>
     </>
   )
 }
