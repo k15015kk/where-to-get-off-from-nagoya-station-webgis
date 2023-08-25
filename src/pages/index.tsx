@@ -173,6 +173,28 @@ export default function Home() {
         <p className='relative px-2 py-1 mx-4 text-black w-auto z-10'>
           数値は人数
         </p>
+        <div className='relative z-10 mx-4 bg-white p-2 w-32'>
+          <div className='relative my-1 flex'>
+            <div className='relative m-1 w-4 h-4 bg-red-500'></div>
+            <p className='relative m-1 leading-4'>5000</p>
+          </div>
+          <div className='relative my-1 flex'>
+            <div className='relative m-1 w-4 h-4 bg-orange-500'></div>
+            <p className='relative m-1 leading-4'>3750</p>
+          </div>
+          <div className='relative my-1 flex'>
+            <div className='relative m-1 w-4 h-4 bg-yellow-500'></div>
+            <p className='relative m-1 leading-4'>2500</p>
+          </div>
+          <div className='relative my-1 flex'>
+            <div className='relative m-1 w-4 h-4 bg-green-500'></div>
+            <p className='relative m-1 leading-4'>1250</p>
+          </div>
+          <div className='relative my-1 flex'>
+            <div className='relative m-1 w-4 h-4 bg-blue-500'></div>
+            <p className='relative m-1 leading-4'>0</p>
+          </div>
+        </div>
         <h1 className='absolute px-2 py-1 mx-4 bg-black text-white rounded opacity-40 right-0 bottom-8 w-auto z-10'>
           名古屋駅からどの駅で降りているのか？
         </h1>
