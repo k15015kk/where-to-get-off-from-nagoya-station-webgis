@@ -174,7 +174,7 @@ export default function Home() {
           {files.map((file) => <option key={file.id} value={file.company}>{file.company}</option>)}
         </select>
         <p className='relative px-2 py-1 mx-4 text-black w-auto z-10'>
-          数字の単位は人数
+          数値は人数
         </p>
         <h1 className='absolute px-2 py-1 mx-4 bg-black text-white rounded opacity-40 right-0 bottom-8 w-auto z-10'>
           名古屋駅からどの駅で降りているのか？
