@@ -170,28 +170,28 @@ export default function Home() {
         >
           {files.map((file) => <option key={file.id} value={file.company}>{file.company}</option>)}
         </select>
-        <p className='relative px-2 py-1 mx-4 text-black w-auto z-10'>
+        <div className='relative z-10 mx-4 bg-white-opacity p-2 w-32 rounded'>
+        <p className='relative text-black w-auto'>
           数値は人数
         </p>
-        <div className='relative z-10 mx-4 bg-white p-2 w-32'>
           <div className='relative my-1 flex'>
-            <div className='relative m-1 w-4 h-4 bg-red-500'></div>
-            <p className='relative m-1 leading-4'>5000</p>
+            <div className='relative m-1 w-4 h-4 bg-graph-red border border-black'></div>
+            <p className='relative m-1 leading-4'>5000以上</p>
           </div>
           <div className='relative my-1 flex'>
-            <div className='relative m-1 w-4 h-4 bg-orange-500'></div>
+            <div className='relative m-1 w-4 h-4 bg-graph-orange border border-black'></div>
             <p className='relative m-1 leading-4'>3750</p>
           </div>
           <div className='relative my-1 flex'>
-            <div className='relative m-1 w-4 h-4 bg-yellow-500'></div>
+            <div className='relative m-1 w-4 h-4 bg-graph-yellow border border-black'></div>
             <p className='relative m-1 leading-4'>2500</p>
           </div>
           <div className='relative my-1 flex'>
-            <div className='relative m-1 w-4 h-4 bg-green-500'></div>
+            <div className='relative m-1 w-4 h-4 bg-graph-green border border-black'></div>
             <p className='relative m-1 leading-4'>1250</p>
           </div>
           <div className='relative my-1 flex'>
-            <div className='relative m-1 w-4 h-4 bg-blue-500'></div>
+            <div className='relative m-1 w-4 h-4 bg-graph-blue border border-black'></div>
             <p className='relative m-1 leading-4'>0</p>
           </div>
         </div>
