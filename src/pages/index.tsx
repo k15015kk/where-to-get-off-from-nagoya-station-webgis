@@ -95,6 +95,9 @@ export default function Home() {
     setSelected(file_data ?? files[0]);
   }
 
+  // Properties
+  const maxCount = 5000;
+
   // State
   const [lineData, setLineData] = useState<object>();
   const [stationData, setStationData] = useState<any[]>([]);
@@ -126,8 +129,6 @@ export default function Home() {
     loadLineData();
     loadStationData();
   }, [selected]);
-
-  const maxCount = 5000;
 
   // Layer
   const lineGeoJsonLayer = new GeoJsonLayer({
