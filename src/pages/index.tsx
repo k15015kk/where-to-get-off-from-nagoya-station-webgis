@@ -12,7 +12,7 @@ const INITIAL_VIEW_STATE: MapViewState = {
   longitude: 136.881637,
   latitude: 35.170694,
   zoom: 9,
-  pitch: 0,
+  pitch: 60,
   bearing: 0
 };
 
