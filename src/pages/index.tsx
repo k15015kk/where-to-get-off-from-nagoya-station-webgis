@@ -1,8 +1,7 @@
-import { GridCellLayer, GeoJsonLayer } from '@deck.gl/layers/typed';
 import { load } from '@loaders.gl/core';
 import { JSONLoader } from '@loaders.gl/json';
 import { useEffect, useState, useMemo } from 'react';
-import DeckGL from '@deck.gl/react/typed';
+import { GridCellLayer, GeoJsonLayer } from '@deck.gl/layers/typed';
 import { MapboxOverlay, MapboxOverlayProps } from '@deck.gl/mapbox/typed';
 import Map, { NavigationControl, FullscreenControl, useControl } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
