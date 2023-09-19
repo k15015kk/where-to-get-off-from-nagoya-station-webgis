@@ -171,9 +171,9 @@ export default function Home() {
           {files.map((file) => <option key={file.id} value={file.company}>{file.company}</option>)}
         </select>
         <div className='relative z-10 mx-4 bg-white-opacity p-2 w-32 rounded'>
-        <p className='relative text-black w-auto'>
-          数値は人数
-        </p>
+          <p className='relative text-black w-auto'>
+            数値は人数
+          </p>
           <div className='relative my-1 flex'>
             <div className='relative m-1 w-4 h-4 bg-graph-red border border-black'></div>
             <p className='relative m-1 leading-4'>5000以上</p>
