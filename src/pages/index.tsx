@@ -202,7 +202,7 @@ export default function Home() {
       <div className='absolute w-screen h-screen'>
 
         <Map
-          mapStyle={process.env.NEXT_PUBLIC_MAP_URL}
+          mapStyle="https://tile.openstreetmap.jp/styles/osm-bright-ja/style.json"
           initialViewState={INITIAL_VIEW_STATE}
           maplibreLogo
         >
